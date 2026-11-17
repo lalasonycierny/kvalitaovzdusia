@@ -1,0 +1,220 @@
+{
+ "meteoStations": [
+  {
+   "id": "11810",
+   "lat": 48.152222,
+   "lon": 17.067778,
+   "name": "Bratislava – Mlynská Dolina"
+  },
+  {
+   "id": "11812",
+   "lat": 48.255743,
+   "lon": 17.152589,
+   "name": "Malý Javorník"
+  },
+  {
+   "id": "11813",
+   "lat": 48.167778,
+   "lon": 17.105833,
+   "name": "Bratislava – Koliba"
+  },
+  {
+   "id": "11815",
+   "lat": 48.272478,
+   "lon": 17.245635,
+   "name": "Pezinok – Grinava"
+  },
+  {
+   "id": "11816",
+   "lat": 48.170278,
+   "lon": 17.2075,
+   "name": "Bratislava – letisko"
+  },
+  {
+   "id": "11817",
+   "lat": 48.198091,
+   "lon": 17.513692,
+   "name": "Kráľová pri Senci"
+  },
+  {
+   "id": "11833",
+   "lat": 48.372778,
+   "lon": 17.273889,
+   "name": "Modra – Piesok"
+  }
+ ],
+ "stations": [
+  {
+   "id": "11813",
+   "lat": 48.168056,
+   "lon": 17.106111,
+   "name": "Bratislava, Jeséniova",
+   "pollutants": [
+    "O3",
+    "SO2",
+    "NO2",
+    "NOX",
+    "PM10",
+    "PM2.5"
+   ],
+   "source": "SHMÚ"
+  },
+  {
+   "id": "99111",
+   "lat": 48.125,
+   "lon": 17.125556,
+   "name": "Bratislava, Mamateyova",
+   "pollutants": [
+    "O3",
+    "SO2",
+    "NO2",
+    "NOX",
+    "PM10",
+    "PM2.5"
+   ],
+   "source": "SHMÚ"
+  },
+  {
+   "id": "99112",
+   "lat": 48.158333,
+   "lon": 17.128611,
+   "name": "Bratislava, Trnavské Mýto",
+   "pollutants": [
+    "NO2",
+    "NOX",
+    "PM10",
+    "PM2.5",
+    "CO",
+    "BZN"
+   ],
+   "source": "SHMÚ"
+  },
+  {
+   "id": "99114",
+   "lat": 48.144722,
+   "lon": 17.113333,
+   "name": "Bratislava, Kamenné nám.",
+   "pollutants": [
+    "PM10",
+    "PM2.5"
+   ],
+   "source": "SHMÚ"
+  },
+  {
+   "id": "99117",
+   "lat": 48.21129,
+   "lon": 17.157971,
+   "name": "Bratislava, Púchovská",
+   "pollutants": [
+    "SO2",
+    "NO2",
+    "NOX",
+    "PM10",
+    "PM2.5",
+    "CO"
+   ],
+   "source": "SHMÚ"
+  },
+  {
+   "id": "99133",
+   "lat": 48.283341,
+   "lon": 17.259744,
+   "name": "Pezinok, Obrancov mieru",
+   "pollutants": [
+    "O3",
+    "NO2",
+    "NOX",
+    "PM10",
+    "PM2.5"
+   ],
+   "source": "SHMÚ"
+  },
+  {
+   "id": "99141",
+   "lat": 48.223077,
+   "lon": 17.404577,
+   "name": "Senec, Boldocká",
+   "pollutants": [
+    "O3",
+    "NO2",
+    "NOX",
+    "PM10",
+    "PM2.5",
+    "CO"
+   ],
+   "source": "SHMÚ"
+  },
+  {
+   "id": "99501",
+   "lat": 48.101566,
+   "lon": 17.226175,
+   "name": "Rovinka · Slovnaft",
+   "pollutants": [
+    "O3",
+    "SO2",
+    "NO2",
+    "NOX",
+    "PM10",
+    "PM2.5",
+    "CO",
+    "BZN"
+   ],
+   "source": "SHMÚ"
+  },
+  {
+   "id": "99502",
+   "lat": 48.128361,
+   "lon": 17.216816,
+   "name": "Bratislava, Pod. Biskupice",
+   "pollutants": [
+    "O3",
+    "SO2",
+    "NO2",
+    "NOX",
+    "PM10",
+    "PM2.5",
+    "CO"
+   ],
+   "source": "SHMÚ"
+  },
+  {
+   "id": "99503",
+   "lat": 48.128084,
+   "lon": 17.17015,
+   "name": "Bratislava, Vlčie Hrdlo",
+   "pollutants": [
+    "O3",
+    "SO2",
+    "NO2",
+    "NOX",
+    "PM10",
+    "PM2.5",
+    "CO",
+    "BZN",
+    "H2S"
+   ],
+   "source": "SHMÚ"
+  },
+  {
+   "id": "99801",
+   "lat": 48.099754,
+   "lon": 17.231278,
+   "name": "Rovinka · mobilná SHMÚ",
+   "pollutants": [
+    "SO2",
+    "NO2",
+    "NOX",
+    "PM10",
+    "PM2.5",
+    "CO",
+    "BZN"
+   ],
+   "source": "SHMÚ"
+  }
+ ],
+ "weatherPoint": {
+  "lat": 48.12338,
+  "lon": 17.176886,
+  "source": "Open-Meteo"
+ }
+}
