@@ -3,39 +3,245 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Kvalita ovzdušia | kvalitaovzdusia.sk</title>
-<meta name="description" content="Prehľad a dlhodobé štatistiky kvality ovzdušia. Stránka sa pripravuje.">
+<title>Kvalita ovzdušia | Bratislava a okolie</title>
+<meta name="description" content="Mapa a štatistiky kvality ovzdušia v Bratislave a okolí: krátkodobé aj dlhodobé vyhodnotenie meraní.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
 <style>
-:root{--bg:#F3F7F8;--ink:#13232B;--mute:#52656F;--line:#C9D6DC}
-@media (prefers-color-scheme:dark){:root{--bg:#0E1A20;--ink:#EAF1F3;--mute:#95A8B1;--line:#2B3F48}}
+:root{--bg:#F3F7F8;--panel:#FFFFFF;--ink:#13232B;--mute:#52656F;--line:#C9D6DC;--accent:#1B7F79}
+@media (prefers-color-scheme:dark){:root{--bg:#0E1A20;--panel:#14252D;--ink:#EAF1F3;--mute:#95A8B1;--line:#2B3F48;--accent:#4FB3A0}}
 *{box-sizing:border-box}
-html,body{height:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font:400 clamp(1rem,1.2vw + .8rem,1.2rem)/1.55 "Bricolage Grotesque",system-ui,sans-serif;display:flex;flex-direction:column;justify-content:center;padding:clamp(20px,6vw,72px)}
-main{max-width:46rem}
-h1{font-weight:800;font-size:clamp(2.6rem,10vw,6.4rem);line-height:.98;letter-spacing:-.035em;margin:0 0 .35em;font-variation-settings:"opsz" 96}
-p{margin:0 0 1.6em;max-width:34em;color:var(--mute)}
-.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-radius:6px;overflow:hidden;max-width:40rem}
-.scale li{list-style:none;padding:34px 8px 8px;font-size:.78rem;line-height:1.25;color:#10201A}
-.scale{margin:0;padding:0}
-.scale li:nth-child(1){background:#4FB3A0}
-.scale li:nth-child(2){background:#B7CF57}
-.scale li:nth-child(3){background:#EBC93F}
-.scale li:nth-child(4){background:#E8873B}
-.scale li:nth-child(5){background:#C8484E;color:#fff}
-footer{margin-top:2.4em;color:var(--mute);font-size:.9rem}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1rem/1.55 "Bricolage Grotesque",system-ui,sans-serif}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+header,main,footer{max-width:1180px;margin:0 auto;padding:0 clamp(16px,4vw,32px)}
+header{padding-top:clamp(24px,5vw,56px)}
+h1{font-weight:800;font-size:clamp(2.4rem,8vw,5rem);line-height:.98;letter-spacing:-.035em;margin:0 0 .25em;font-variation-settings:"opsz" 96}
+.sub{color:var(--mute);margin:0 0 1.4rem;max-width:40em}
+.controls{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:end;margin:0 0 14px}
+label{display:flex;flex-direction:column;gap:4px;font-size:.9rem;color:var(--mute)}
+select{font:inherit;color:var(--ink);background:var(--panel);border:1.5px solid var(--ink);border-radius:6px;padding:8px 10px;min-width:12rem}
+#status{margin:0 0 10px;color:var(--mute);font-size:.95rem}
+#err{display:none;background:#FFF3CD;color:#3a2e00;border:1.5px solid #EBC93F;border-radius:6px;padding:12px 14px;margin:0 0 16px}
+#map{height:min(64vh,600px);min-height:360px;border:1.5px solid var(--ink);border-radius:6px;background:#d9e2ea}
+.pin{display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.35);font:700 .8rem/1 "Bricolage Grotesque",system-ui,sans-serif;color:#10201A}
+.scale{display:grid;grid-template-columns:repeat(4,1fr);max-width:34rem;margin:10px 0 0;padding:0;border-radius:6px;overflow:hidden}
+.scale li{list-style:none;padding:20px 8px 6px;font-size:.78rem;line-height:1.2;color:#10201A}
+.scale li:nth-child(1){background:#4FB3A0}.scale li:nth-child(2){background:#EBC93F}
+.scale li:nth-child(3){background:#E8873B}.scale li:nth-child(4){background:#C8484E;color:#fff}
+.note{color:var(--mute);font-size:.88rem;margin:8px 0 0;max-width:46em}
+section{margin-top:clamp(36px,6vw,64px);border-top:2px solid var(--ink);padding-top:16px}
+h2{font-size:clamp(1.4rem,3vw,2rem);letter-spacing:-.02em;margin:0 0 6px;font-weight:800}
+h3{font-size:1.05rem;margin:22px 0 6px;font-weight:600}
+.chart{position:relative;height:300px}
+.wind{margin:0 0 12px;color:var(--mute)}
+table{width:100%;max-width:46rem;border-collapse:collapse;font-size:.95rem}
+th,td{padding:6px 10px 6px 0;text-align:left;border-bottom:1px solid var(--line)}
+th{font-weight:500;color:var(--mute)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+footer{padding-top:44px;padding-bottom:48px;color:var(--mute);font-size:.88rem}
+footer a{color:var(--accent)}
+.leaflet-popup-content{font-family:"Bricolage Grotesque",system-ui,sans-serif}
 </style>
 </head>
 <body>
-<main>
+<header>
   <h1>Kvalita ovzdušia</h1>
-  <p>Prehľad a dlhodobé štatistiky. Stránka sa pripravuje.</p>
-  <ul class="scale" aria-label="Stupnica kvality ovzdušia od dobrej po zlú">
-    <li>Dobrá</li><li>Prijateľná</li><li>Zhoršená</li><li>Zlá</li><li>Veľmi zlá</li>
-  </ul>
-  <footer>© kvalitaovzdusia.sk</footer>
+  <p class="sub">Bratislava a okolie. Mapa posledných meraní a vyhodnotenie za krátke aj dlhé obdobie.</p>
+  <div class="controls">
+    <label>Látka <select id="pol"></select></label>
+  </div>
+  <p id="status">Načítavam merania…</p>
+  <div id="err"></div>
+</header>
+
+<main>
+  <div id="map" role="img" aria-label="Mapa meracích staníc s posledným meraním"></div>
+  <ul class="scale" id="scale"></ul>
+  <p class="note">Farebné pásma sú orientačné a nie sú zdravotné limity. Šedá značka znamená, že stanica pre túto látku nemá platné meranie.</p>
+
+  <section>
+    <h2>Krátkodobo</h2>
+    <p class="wind" id="wind"></p>
+    <div class="controls"><label>Obdobie <select id="range"><option value="24">Posledných 24 hodín</option><option value="168" selected>Posledných 7 dní</option></select></label></div>
+    <div class="chart"><canvas id="cShort"></canvas></div>
+    <p class="note">Hodinové hodnoty po staniciach. Medzery v čiare znamenajú chýbajúce meranie.</p>
+  </section>
+
+  <section>
+    <h2>Dlhodobo</h2>
+    <p class="note" id="longnote"></p>
+    <h3>Denný priemer</h3>
+    <div class="chart"><canvas id="cDay"></canvas></div>
+    <h3>Mesačný priemer</h3>
+    <div class="chart"><canvas id="cMonth"></canvas></div>
+    <h3 id="exTitle">Dni nad prvou hranicou pásma</h3>
+    <table><thead><tr><th>Stanica</th><th class="n">Dni nad hranicou</th><th class="n">Dni spolu</th><th class="n">Podiel</th></tr></thead><tbody id="ex"></tbody></table>
+  </section>
 </main>
+
+<footer>
+  Údaje: SHMÚ (predbežné merania, väčšinou nevalidované) a Open-Meteo (model počasia), spracované cez
+  <a href="https://kvalitaovzdusia.sk/">kvalitaovzdusia.sk</a>. Jednotky: µg/m³ (pri CO a H₂S predpoklad).
+  Časy sú v miestnom čase. Dlhodobé štatistiky sa budujú od začiatku zberu dát.
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+const D = 'data/';
+const $ = id => document.getElementById(id);
+const nf = new Intl.NumberFormat('sk-SK', {maximumFractionDigits: 1});
+const TZ = 'Europe/Bratislava';
+const fmtDT = d => d.toLocaleString('sk-SK', {timeZone: TZ, day: 'numeric', month: 'numeric', hour: '2-digit', minute: '2-digit'});
+const fmtD = d => d.toLocaleDateString('sk-SK', {timeZone: TZ, day: 'numeric', month: 'numeric'});
+const POLL = [['PM2.5','Jemný prach PM2,5'],['PM10','Prach PM10'],['NO2','Oxid dusičitý NO₂'],['O3','Ozón O₃'],
+  ['SO2','Oxid siričitý SO₂'],['BZN','Benzén'],['CO','Oxid uhoľnatý CO'],['NOX','Oxidy dusíka NOx']];
+const BANDS = {'PM2.5':[15,50,90],'PM10':[45,120,195],'NO2':[25,60,100],'O3':[100,120,160],'SO2':[10,20,40],'BZN':[0.8,3.5,5]};
+const COL = ['#4FB3A0','#EBC93F','#E8873B','#C8484E'];
+const LINES = ['#1B7F79','#E8873B','#4B2BD6','#C0187A','#6B8E23','#0E5A8A','#B8860B','#8B4513','#2F4F4F','#D2691E','#708090'];
+const GREY = '#9AA7AE';
+Chart.defaults.font.family = '"Bricolage Grotesque",system-ui,sans-serif';
+Chart.defaults.maintainAspectRatio = false;
+
+async function txt(u){ const r = await fetch(u, {cache: 'no-cache'}); if(!r.ok) throw new Error(u + ' (' + r.status + ')'); return r.text(); }
+function csv(t){ const L = t.trim().split('\n'); const h = L[0].split(','); return L.slice(1).filter(Boolean).map(l => { const c = l.split(','); const o = {}; h.forEach((k,i) => o[k] = c[i]); return o; }); }
+const colorFor = (pol, v) => { const b = BANDS[pol]; if(!b) return GREY; return v <= b[0] ? COL[0] : v <= b[1] ? COL[1] : v <= b[2] ? COL[2] : COL[3]; };
+const compass = d => ['S','SV','V','JV','J','JZ','Z','SZ'][Math.round(((d % 360) + 360) % 360 / 45) % 8];
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+let meta, hourly = [], daily = [], map, markers, charts = {};
+let byStation = {};   // pollutant -> station_id -> [{t, v}]
+
+function buildSeries(){
+  byStation = {};
+  for(const r of hourly){
+    const p = byStation[r.pollutant] || (byStation[r.pollutant] = {});
+    (p[r.station_id] || (p[r.station_id] = [])).push({t: new Date(r.time), v: r.value === '' ? null : +r.value, q: r.quality});
+  }
+  for(const p of Object.values(byStation)) for(const s of Object.values(p)) s.sort((a,b) => a.t - b.t);
+}
+const stName = id => (meta.stations.find(s => s.id === id) || {name: id}).name;
+
+function renderScale(pol){
+  const b = BANDS[pol];
+  $('scale').innerHTML = b
+    ? ['do ' + b[0], b[0] + ' až ' + b[1], b[1] + ' až ' + b[2], 'nad ' + b[2]].map(t => '<li>' + t + '</li>').join('')
+    : '<li style="grid-column:1/-1;background:' + GREY + '">Pre túto látku nie sú pásma, značky sú šedé.</li>';
+}
+
+function renderMap(pol){
+  if(markers) markers.remove();
+  markers = L.layerGroup().addTo(map);
+  const pts = [];
+  for(const st of meta.stations){
+    if(!st.pollutants.includes(pol)) continue;
+    const ser = (byStation[pol] || {})[st.id] || [];
+    const last = [...ser].reverse().find(x => x.v !== null);
+    const text = last ? nf.format(last.v) : '–';
+    const icon = L.divIcon({className: '', iconSize: [38,38], iconAnchor: [19,19],
+      html: '<div class="pin" style="background:' + (last ? colorFor(pol, last.v) : GREY) + '">' + text + '</div>'});
+    const pop = '<b>' + st.name + '</b><br>' + (last
+      ? nf.format(last.v) + ' µg/m³<br><small>' + fmtDT(last.t) + (last.q === 'unvalidated' ? ' · predbežné' : '') + '</small>'
+      : 'bez platného merania');
+    L.marker([st.lat, st.lon], {icon, title: st.name}).bindPopup(pop).addTo(markers);
+    pts.push([st.lat, st.lon]);
+  }
+  if(pts.length) map.fitBounds(pts, {padding: [40,40], maxZoom: 12});
+}
+
+function lineChart(id, labels, datasets, opts){
+  if(charts[id]) charts[id].destroy();
+  charts[id] = new Chart($(id), {type: opts.type || 'line', data: {labels, datasets},
+    options: {interaction: {mode: 'nearest', intersect: false}, spanGaps: false,
+      plugins: {legend: {position: 'bottom', labels: {boxWidth: 12, color: css('--mute')}}},
+      elements: {point: {radius: 0, hoverRadius: 4}, line: {borderWidth: 2, tension: .15}},
+      scales: {x: {grid: {display: false}, ticks: {maxTicksLimit: 8, maxRotation: 0, color: css('--mute')}},
+        y: {beginAtZero: true, grid: {color: css('--line')}, ticks: {color: css('--mute')}, title: {display: true, text: 'µg/m³', color: css('--mute')}}}}});
+}
+
+function renderShort(pol){
+  const hrs = +$('range').value;
+  const stations = byStation[pol] || {};
+  const all = Object.values(stations).flat();
+  if(!all.length){ lineChart('cShort', [], [], {}); return; }
+  const tmax = Math.max(...all.map(x => +x.t));
+  const times = [...new Set(all.map(x => +x.t))].filter(t => t > tmax - hrs * 3600e3).sort((a,b) => a - b);
+  const labels = times.map(t => hrs <= 24 ? new Date(t).toLocaleTimeString('sk-SK', {timeZone: TZ, hour: '2-digit', minute: '2-digit'}) : fmtDT(new Date(t)));
+  const ds = Object.entries(stations).map(([id, ser], i) => {
+    const m = new Map(ser.map(x => [+x.t, x.v]));
+    return {label: stName(id), data: times.map(t => m.has(t) ? m.get(t) : null), borderColor: LINES[i % LINES.length], backgroundColor: LINES[i % LINES.length]};
+  }).filter(d => d.data.some(v => v !== null));
+  lineChart('cShort', labels, ds, {});
+}
+
+function renderLong(pol){
+  const rows = daily.filter(r => r.pollutant === pol);
+  const days = [...new Set(rows.map(r => r.date))].sort();
+  $('longnote').textContent = days.length
+    ? 'Dostupné ukončené dni: ' + days.length + ' (od ' + days[0] + ' do ' + days[days.length - 1] + '). Čím dlhšie zber beží, tým užitočnejšie sú tieto grafy.'
+    : 'Zatiaľ nie je ukončený ani jeden celý deň. Dlhodobé štatistiky sa objavia po prvom dni zberu.';
+  const stIds = [...new Set(rows.map(r => r.station_id))];
+  const dsDay = stIds.map((id, i) => {
+    const m = new Map(rows.filter(r => r.station_id === id).map(r => [r.date, +r.mean]));
+    return {label: stName(id), data: days.map(d => m.has(d) ? m.get(d) : null), borderColor: LINES[i % LINES.length], backgroundColor: LINES[i % LINES.length]};
+  });
+  lineChart('cDay', days.map(d => d.slice(5).replace('-', '. ') + '.'), dsDay, {});
+  const months = [...new Set(rows.map(r => r.date.slice(0, 7)))].sort();
+  const dsMon = stIds.map((id, i) => ({label: stName(id), backgroundColor: LINES[i % LINES.length],
+    data: months.map(mo => { let s = 0, n = 0;
+      for(const r of rows) if(r.station_id === id && r.date.startsWith(mo)){ s += +r.mean * +r.n; n += +r.n; }
+      return n ? Math.round(s / n * 100) / 100 : null; })}));
+  lineChart('cMonth', months, dsMon, {type: 'bar'});
+  // dni nad prvou hranicou
+  const b = BANDS[pol];
+  $('exTitle').textContent = b ? 'Dni s priemerom nad ' + b[0] + ' µg/m³' : 'Dni nad hranicou';
+  $('ex').innerHTML = b ? stIds.map(id => {
+    const r = rows.filter(x => x.station_id === id);
+    const over = r.filter(x => +x.mean > b[0]).length;
+    return '<tr><td>' + stName(id) + '</td><td class="n">' + over + '</td><td class="n">' + r.length + '</td><td class="n">' + Math.round(100 * over / r.length) + ' %</td></tr>';
+  }).join('') : '<tr><td colspan="4">Pre túto látku nie je určená hranica.</td></tr>';
+}
+
+async function loadWind(days){
+  try{
+    const rows = csv(await txt(D + 'weather/' + days[days.length - 1] + '.csv'));
+    const r = rows[rows.length - 1];
+    if(r && r.speed !== '') $('wind').textContent = 'Vietor (model Open-Meteo, ' + fmtDT(new Date(r.time)) + '): ' + nf.format(+r.speed) + ' m/s zo smeru ' + compass(+r.direction) + ' (' + Math.round(+r.direction) + '°), teplota ' + nf.format(+r.temperature) + ' °C.';
+  }catch(e){ $('wind').textContent = ''; }
+}
+
+function renderAll(){
+  const pol = $('pol').value;
+  renderScale(pol); renderMap(pol); renderShort(pol); renderLong(pol);
+}
+
+async function main(){
+  const [m, idx] = await Promise.all([txt(D + 'meta.json').then(JSON.parse), txt(D + 'index.json').then(JSON.parse)]);
+  meta = m;
+  const last8 = idx.days.slice(-8);
+  hourly = (await Promise.all(last8.map(d => txt(D + 'hourly/' + d + '.csv').then(csv).catch(() => [])))).flat();
+  daily = await txt(D + 'stats/daily.csv').then(csv).catch(() => []);
+  buildSeries();
+  const present = POLL.filter(([k]) => byStation[k]);
+  $('pol').innerHTML = (present.length ? present : POLL).map(([k, n]) => '<option value="' + k + '">' + n + '</option>').join('');
+  if(byStation['PM2.5']) $('pol').value = 'PM2.5';
+  const times = hourly.filter(r => r.value !== '').map(r => +new Date(r.time));
+  $('status').textContent = times.length
+    ? 'Posledné meranie: ' + fmtDT(new Date(Math.max(...times))) + ' · staníc: ' + meta.stations.length
+    : 'Zatiaľ nie sú k dispozícii žiadne platné merania.';
+  map = L.map('map', {minZoom: 8, maxZoom: 15}).setView([48.15, 17.15], 11);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {attribution: '© OpenStreetMap, © CARTO', subdomains: 'abcd'}).addTo(map);
+  $('pol').onchange = renderAll; $('range').onchange = () => renderShort($('pol').value);
+  renderAll();
+  loadWind(idx.days);
+}
+main().catch(e => {
+  $('status').textContent = 'Údaje zatiaľ nie sú k dispozícii.';
+  const el = $('err'); el.style.display = 'block';
+  el.textContent = 'Nepodarilo sa načítať merania: ' + e.message + '. Skontroluj v záložke Actions, či prebehol aspoň jeden beh „Zber meraní".';
+});
+</script>
 </body>
 </html>
