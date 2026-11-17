@@ -232,7 +232,7 @@ async function main(){
     ? 'Posledné meranie: ' + fmtDT(new Date(Math.max(...times))) + ' · staníc: ' + meta.stations.length
     : 'Zatiaľ nie sú k dispozícii žiadne platné merania.';
   map = L.map('map', {minZoom: 8, maxZoom: 15}).setView([48.15, 17.15], 11);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {attribution: '© OpenStreetMap, © CARTO', subdomains: 'abcd'}).addTo(map);
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 19, attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(map);
   $('pol').onchange = renderAll; $('range').onchange = () => renderShort($('pol').value);
   renderAll();
   loadWind(idx.days);
