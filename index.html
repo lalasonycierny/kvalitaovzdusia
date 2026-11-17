@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kvalita ovzdušia | kvalitaovzdusia.sk</title>
+<meta name="description" content="Prehľad a dlhodobé štatistiky kvality ovzdušia. Stránka sa pripravuje.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F3F7F8;--ink:#13232B;--mute:#52656F;--line:#C9D6DC}
+@media (prefers-color-scheme:dark){:root{--bg:#0E1A20;--ink:#EAF1F3;--mute:#95A8B1;--line:#2B3F48}}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 clamp(1rem,1.2vw + .8rem,1.2rem)/1.55 "Bricolage Grotesque",system-ui,sans-serif;display:flex;flex-direction:column;justify-content:center;padding:clamp(20px,6vw,72px)}
+main{max-width:46rem}
+h1{font-weight:800;font-size:clamp(2.6rem,10vw,6.4rem);line-height:.98;letter-spacing:-.035em;margin:0 0 .35em;font-variation-settings:"opsz" 96}
+p{margin:0 0 1.6em;max-width:34em;color:var(--mute)}
+.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-radius:6px;overflow:hidden;max-width:40rem}
+.scale li{list-style:none;padding:34px 8px 8px;font-size:.78rem;line-height:1.25;color:#10201A}
+.scale{margin:0;padding:0}
+.scale li:nth-child(1){background:#4FB3A0}
+.scale li:nth-child(2){background:#B7CF57}
+.scale li:nth-child(3){background:#EBC93F}
+.scale li:nth-child(4){background:#E8873B}
+.scale li:nth-child(5){background:#C8484E;color:#fff}
+footer{margin-top:2.4em;color:var(--mute);font-size:.9rem}
+</style>
+</head>
+<body>
+<main>
+  <h1>Kvalita ovzdušia</h1>
+  <p>Prehľad a dlhodobé štatistiky. Stránka sa pripravuje.</p>
+  <ul class="scale" aria-label="Stupnica kvality ovzdušia od dobrej po zlú">
+    <li>Dobrá</li><li>Prijateľná</li><li>Zhoršená</li><li>Zlá</li><li>Veľmi zlá</li>
+  </ul>
+  <footer>© kvalitaovzdusia.sk</footer>
+</main>
+</body>
+</html>
