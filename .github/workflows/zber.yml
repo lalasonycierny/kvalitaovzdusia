@@ -28,6 +28,9 @@ jobs:
       - name: Stiahnuť a uložiť merania
         run: python collector/collect.py
 
+      - name: Prepočítať denné štatistiky
+        run: python collector/stats.py
+
       - name: Uložiť zmeny do repozitára
         run: |
           git config user.name  "zber-bot"
