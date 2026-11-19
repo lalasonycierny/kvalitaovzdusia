@@ -685,9 +685,9 @@ station_id,pollutant,time,value,quality
 99133,PM10,2026-11-18T11:00Z,2,unvalidated
 99133,PM10,2026-11-18T12:00Z,3,unvalidated
 99133,PM10,2026-11-18T13:00Z,4,unvalidated
-99133,PM10,2026-11-18T14:00Z,,missing
-99133,PM10,2026-11-18T15:00Z,,missing
-99133,PM10,2026-11-18T16:00Z,,missing
+99133,PM10,2026-11-18T14:00Z,4,unvalidated
+99133,PM10,2026-11-18T15:00Z,,below_detection
+99133,PM10,2026-11-18T16:00Z,7,unvalidated
 99133,PM10,2026-11-18T17:00Z,14,unvalidated
 99133,PM10,2026-11-18T18:00Z,7,unvalidated
 99133,PM10,2026-11-18T19:00Z,4,unvalidated
@@ -709,8 +709,8 @@ station_id,pollutant,time,value,quality
 99133,PM2.5,2026-11-18T11:00Z,,below_detection
 99133,PM2.5,2026-11-18T12:00Z,6,unvalidated
 99133,PM2.5,2026-11-18T13:00Z,5,unvalidated
-99133,PM2.5,2026-11-18T14:00Z,,missing
-99133,PM2.5,2026-11-18T15:00Z,,missing
+99133,PM2.5,2026-11-18T14:00Z,2,unvalidated
+99133,PM2.5,2026-11-18T15:00Z,,below_detection
 99133,PM2.5,2026-11-18T16:00Z,,missing
 99133,PM2.5,2026-11-18T17:00Z,,missing
 99133,PM2.5,2026-11-18T18:00Z,,missing
