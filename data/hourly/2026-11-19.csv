@@ -574,7 +574,7 @@ station_id,pollutant,time,value,quality
 99117,PM2.5,2026-11-19T20:00Z,6,unvalidated
 99117,PM2.5,2026-11-19T21:00Z,2,unvalidated
 99117,PM2.5,2026-11-19T22:00Z,,below_detection
-99117,PM2.5,2026-11-19T23:00Z,,missing
+99117,PM2.5,2026-11-19T23:00Z,,below_detection
 99117,SO2,2026-11-19T00:00Z,,missing
 99117,SO2,2026-11-19T01:00Z,,missing
 99117,SO2,2026-11-19T02:00Z,,missing
